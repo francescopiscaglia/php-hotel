@@ -11,7 +11,20 @@
 <body>
     <div class="container">
         <h1 class="my-4">PHP Hotels</h1>
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4">
+
+        <!-- Form per il filtro -->
+        <form method="GET" class="mb-4">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="parking" id="parking" value="1"
+                    <?php if (isset($_GET['parking'])) echo 'checked'; ?>>
+                <label class="form-check-label" for="parking">
+                    Parcheggio
+                </label>
+            </div>
+            <button type="submit" class="btn btn-sm btn-primary mt-2">Filtra</button>
+        </form>
+
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
             <?php
             $hotels = [
                 [
@@ -51,6 +64,12 @@
                 ],
             ];
 
+            if (isset($_GET['parking'])) {
+                $hotels = array_filter($hotels, function ($hotel) {
+                    return $hotel['parking'] === true;
+                });
+            };
+
             foreach ($hotels as $hotel) {
             ?>
                 <div class="col">
@@ -65,7 +84,7 @@
                     </div>
                 </div>
             <?php
-            }
+            };
             ?>
         </div>
     </div>
